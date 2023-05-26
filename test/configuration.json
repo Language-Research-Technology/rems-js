@@ -1,0 +1,21 @@
+{
+  "host": "http://127.0.0.1:3000",
+  "api_key": "12345678",
+  "userId": "http://cilogon.org/serverE/users/4497",
+  "apis": {
+    "create_organization": "/api/organizations/create",
+    "get_organization": "/api/organizations",
+    "create_license": "/api/licenses/create",
+    "get_license": "/api/licenses",
+    "create_form": "/api/forms/create",
+    "get_form": "/api/forms",
+    "create_workflow": "/api/workflows/create",
+    "get_workflow": "/api/workflows",
+    "create_resource": "/api/resources/create",
+    "get_resource": "/api/resources",
+    "create_category": "/api/categories",
+    "get_category": "/api/categories",
+    "create_catalogueItem": "/api/catalogue-items/create",
+    "get_catalogueItem": "/api/catalogue-items"
+  }
+}

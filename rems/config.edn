@@ -1,0 +1,31 @@
+{ 
+    :search-index-path "/tmp/rems-search-index"
+    :extra-stylesheets {:root "./" :files ["/ldaca-theme/extra-styles.css"]}
+    :translations-directory "/rems/resources/translations"
+    :languages [:en]
+    :catalogue-is-public true
+    :enable-catalogue-tree true
+    :enable-cart false
+    :attachment-max-size 10000
+    :enable-pdf-api true
+    :enable-permissions-api true
+    :database-lock-timeout "4s"
+    :database-idle-in-transaction-session-timeout "8s"
+    ;; Disable commands
+    :disable-commands [
+        :application.command/change-resources
+    ]
+    :enable-save-compaction true
+    :enable-autosave true
+    :application-id-column :generated-and-assigned-external-id
+    :enable-assign-external-id-ui true
+    :extra-pages-path "/rems/extra-pages"
+    :extra-pages [{
+        :id "about"
+        :translations {
+            :en {
+                :title "About"
+                :filename "about.md"}
+                }
+                }]
+ }

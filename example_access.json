@@ -1,0 +1,50 @@
+{
+  "organization": {
+    "id": "ldaca",
+    "shortName": "LDaCA",
+    "email": "info@ldaca.edu.au",
+    "name": "LDaCA",
+    "reviewEmailName": "Moises"
+  },
+  "license": {
+    "id": 10,
+    "title": "Example License",
+    "content": "https://example.com/license"
+  },
+  "form": {
+    "id": 1,
+    "name": "Form 1",
+    "title": "Form 1",
+    "content": "my form",
+    "fields": [
+      {
+        "type": "multiselect",
+        "privacy": "public",
+        "title": "Have you read the license?",
+        "info": "Select the box if you have read the license",
+        "optional": false,
+        "options": [{
+          "key": "IhaveReadLicense",
+          "label": "I have read the license"
+        }]
+      }
+    ]
+  },
+  "workflow": {
+    "title": "Workflow Title",
+    "handlers": [
+      "m.sacalbonequi@uq.edu.au"
+    ]
+  },
+  "resource": {
+    "id": "https://example.com/license"
+  },
+  "category": {
+    "title": "LDaCA",
+    "description": "LDaCA Licenses"
+  },
+  "catalogue": {
+    "title": "Catalogue Item 1",
+    "url": "https://example.com/license"
+  }
+}

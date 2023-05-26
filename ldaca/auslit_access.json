@@ -1,0 +1,30 @@
+{
+  "organization": {
+    "id": "ldaca",
+    "shortName": "LDaCA",
+    "email": "info@ldaca.edu.au",
+    "name": "LDaCA",
+    "reviewEmailName": "Moises"
+  },
+  "license": {
+    "title": "Data License for AusLit",
+    "content": "https://www.ldaca.edu.au/licenses/austlit/all/v1/"
+  },
+  "workflow": {
+    "title": "LDaCA AusLit Workflow",
+    "handlers": [
+      "http://cilogon.org/serverE/users/4497"
+    ]
+  },
+  "resource": {
+    "id": "https://www.ldaca.edu.au/licenses/austlit/all/v1/"
+  },
+  "category": {
+    "title": "LDaCA",
+    "description": "LDaCA Licenses"
+  },
+  "catalogue": {
+    "title": "Data License for AusLit - Catalogue Item",
+    "url": "https://www.ldaca.edu.au/licenses/austlit/all/v1/"
+  }
+}
