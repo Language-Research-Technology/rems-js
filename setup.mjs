@@ -93,20 +93,28 @@ async function setup({configuration, access}) {
         });
       }
     }
-    const resource = await rems.resource({
-      resId: access.resource.id, //In our case a license === resource
-      organizationId: organization.id,
-      enabled: true,
-      archived: true,
-      licenses: [lic.id]
-    });
-    const workflow = await rems.workflow({
-      forms: form ? [form.id] : [],
-      licenses: lic ? [lic.id] : [],
-      organizationId: configuration.organizationId,
-      title: access.workflow.title,
-      handlers: access.workflow.handlers //Add all of your handlers here.
-    });
+    let resource;
+    resource = await rems.getResource({resid: access.resource.id});
+    if (!resource?.id) {
+      resource = await rems.resource({
+        resId: access.resource.id, //In our case a license === resource
+        organizationId: organization.id,
+        enabled: true,
+        archived: true,
+        licenses: [lic.id]
+      });
+    }
+    let workflow;
+    workflow = await rems.getWorkflow({title: access.workflow.title});
+    if (!workflow?.id) {
+      workflow = await rems.workflow({
+        forms: form ? [form.id] : [],
+        licenses: lic ? [lic.id] : [],
+        organizationId: configuration.organizationId,
+        title: access.workflow.title,
+        handlers: access.workflow.handlers //Add all of your handlers here.
+      });
+    }
     let category = await rems.getCategory({id: configuration.categoryId});
     if (!category?.id) {
       category = await rems.category({
@@ -114,17 +122,21 @@ async function setup({configuration, access}) {
         description: access.category.description
       });
     }
-    const catalogueItem = await rems.catalogueItem({
-      resId: resource.id, //In our case a license === catalogueItem
-      formId: form?.id,
-      workflowId: workflow.id,
-      organizationId: configuration.organizationId,
-      title: access.catalogue.title,
-      url: access.catalogue.url,
-      enabled: true,
-      archived: false,
-      categories: [category.id]
-    });
+    let catalogueItem;
+    catalogueItem = await rems.getCatalogueItem({resource: access.resource.id});
+    if (!catalogueItem?.id) {
+      catalogueItem = await rems.catalogueItem({
+        resId: resource.id, //In our case a license === catalogueItem
+        formId: form?.id,
+        workflowId: workflow.id,
+        organizationId: configuration.organizationId,
+        title: access.catalogue.title,
+        url: access.catalogue.url,
+        enabled: true,
+        archived: false,
+        categories: [category.id]
+      });
+    }
     const cI = await rems.getCatalogueItem({id: catalogueItem.id});
     console.log('Catalogue Item:')
     console.log(JSON.stringify(cI));

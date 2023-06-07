@@ -7,12 +7,13 @@
     "reviewEmailName": "Moises"
   },
   "license": {
-    "title": "Data License for AusLit",
+    "title": "Data License for AustLit",
     "content": "https://www.ldaca.edu.au/licenses/austlit/all/v1/"
   },
   "workflow": {
-    "title": "LDaCA AusLit Workflow",
+    "title": "LDaCA AustLit Workflow",
     "handlers": [
+      "approver-bot",
       "http://cilogon.org/serverE/users/4497"
     ]
   },
@@ -24,7 +25,7 @@
     "description": "LDaCA Licenses"
   },
   "catalogue": {
-    "title": "Data License for AusLit - Catalogue Item",
+    "title": "Data License for AustLit - Catalogue Item",
     "url": "https://www.ldaca.edu.au/licenses/austlit/all/v1/"
   }
 }

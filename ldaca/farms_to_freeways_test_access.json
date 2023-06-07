@@ -1,0 +1,31 @@
+{
+  "organization": {
+    "id": "ldaca",
+    "shortName": "LDaCA",
+    "email": "info@ldaca.edu.au",
+    "name": "LDaCA",
+    "reviewEmailName": "Moises"
+  },
+  "license": {
+    "title": "Data License for Farms To Freeways Test",
+    "content": "https://language-research-technology.github.io/qa/licenses/farms-to-freeways/all/v1/"
+  },
+  "workflow": {
+    "title": "LDaCA Farms To Freeways Test Workflow",
+    "handlers": [
+      "approver-bot",
+      "http://cilogon.org/serverE/users/4497"
+    ]
+  },
+  "resource": {
+    "id": "https://language-research-technology.github.io/qa/licenses/farms-to-freeways/all/v1/"
+  },
+  "category": {
+    "title": "LDaCA",
+    "description": "LDaCA Licenses"
+  },
+  "catalogue": {
+    "title": "Data License for Farms To Freeways Test - Catalogue Item",
+    "url": "https://language-research-technology.github.io/qa/licenses/farms-to-freeways/all/v1/"
+  }
+}
