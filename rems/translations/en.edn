@@ -2,12 +2,10 @@
  {:accept-invitation {:header "Accept invitation"
                       :title "Accept invitation"
                       :success {:workflow "Successfully joined workflow handling."}
-                      :errors {:already-member {:workflow "You are already a handler."}
-                               :invalid-invitation-type "Accepting invitation failed."
+                      :errors {:invalid-invitation-type "Accepting invitation failed."
                                :invalid-token [:span "Accepting the invitation failed. Check the invitation token " [:code "%1"]]
                                :invalid-workflow "Accepting invitation failed."}}
   :actions {:accept-invitation "Accept invitation"
-            :accept-invitation-already-member "You are already a member."
             :accept-invitation-success "Successfully joined the application."
             :accept-licenses "Accept the terms of use"
             :add-licenses "Add terms of use"
@@ -21,14 +19,15 @@
             :cancel "Cancel"
             :change-applicant "Make applicant"
             :change-resources "Change resources"
+            :change-processing-state "Change state"
             :clear "Clear"
             :close "Close application"
             :close-intro [:div.intro [:p "Note that if the application is closed, it cannot be modified or submitted anymore."]]
-            :comment "Comment"
+            :commands "Actions"
             :decide "Decide"
             :delete "Delete draft"
             :delete-intro [:div.intro [:p "Permanently delete this draft?"]]
-            :errors {:already-member "User is already a member of this application"
+            :errors {:handling-user-cannot-join "A handling user cannot join application as member."
                      :duplicate-id "Id is already in use."
                      ;; %1 - invitation token
                      :invalid-token [:div [:p "Joining the application failed."] [:p "Check the invitation token " [:code "%1"]]]
@@ -38,20 +37,21 @@
                      :validation-errors "Check the following errors:"
                      :validation-warnings "Check the following before submit:"
                      :entitlement-end-not-in-future "The expiration date for access rights must be in the future."}
-            :export-entitlements "Export entitlements as CSV"
-            :generate-ega-api-key-in-profile "Generate one at the Profile page."
             :handled-applications "Processed applications"
+            :handled-applications-count "There are %:count% processed applications."
             :invite-member "Invite member"
             :licenses-selection "Add terms of use"
-            :load-application-states "Load application states"
             :member "Member"
             :member-email "Email"
             :member-name "Name"
+            :modify "Modify"
             :name-and-email-required "Name and email are required."
+            :redact-attachments "Redact attachments"
             :reject "Reject"
             :remark "Remark"
-            :remark-public "Show to applicant"
+            :remove-attachments "Remove attachments"
             :remove-member "Remove member"
+            :replace-attachments "Replace attachments"
             :request-decision "Request decision"
             :request-decision-dropdown "Request decision"
             :request-decision-dropdown-from-user "from existing user..."
@@ -69,24 +69,25 @@
             :return "Return to applicant"
             :review "Review"
             :revoke "Revoke entitlement"
-            :show-publications "Show publications"
-            :show-throughput-times "Show throughput times"
-            :todo-applications "Open applications"}
+            :show-to-applying-users "Show to applicants"
+            :todo-applications "Open applications"
+            :todo-applications-count "There are %:count% open applications."
+            :vote "Vote"}
   :administration {:active "Active"
                    :add "Add"
                    :added-at "Added at"
                    :added-by "Added by"
+                   :anonymize-handling "Anonymized handling"
+                   :application-state "Application state"
                    :archive "Archive"
                    :back "Back"
                    :blacklist "Naughtylist"
-                   :change-form "Change form"
                    :cancel "Cancel"
                    :catalogue-item "Catalogue item"
                    :catalogue-items "Catalogue items"
                    :categories "Categories"
                    :category "Category"
                    :category-children "Subcategories"
-                   :change "Change"
                    :comment "Comment"
                    :copy-as-new "Copy as new"
                    :create-catalogue-item "Create catalogue item"
@@ -101,9 +102,15 @@
                    :delete-confirmation "Do you really want to delete?"
                    :description "Description"
                    :disable "Disable"
+                   :disabled-command "Disabled action"
+                   :disabled-commands "Disabled actions"
                    :disabled-and-archived-explanation "Disabling hides an item from applicants. Archiving also hides it in the administration view."
                    :display-archived "Display archived"
                    :display-order "Display order"
+                   :display-own-organization-only-explanation "Should only own organization items be shown?"
+                   :display-own-organization-only "Own organization only"
+                   :do-not-change-form "Don't change form"
+                   :do-not-change-workflow "Don't change workflow"
                    :edit "Edit"
                    :edit-catalogue-item "Edit catalogue item"
                    :edit-category "Edit category"
@@ -122,6 +129,7 @@
                    :external-title "Title"
                    :form "Form"
                    :forms "Forms"
+                   :handlers-vote "Handlers vote"
                    :has-errors "Errors"
                    :id "Id"
                    :internal-name "Name"
@@ -134,13 +142,17 @@
                    :name "Name"
                    :no-categories "No categories"
                    :no-form "No form"
+                   :no-forms "No forms"
                    :no-licenses "No licenses"
+                   :no-voting "No voting"
                    :optional "(optional)"
                    :org "Org"
                    :organization "Organization"
                    :organizations "Organizations"
                    :owners "Owners"
                    :preview "Preview"
+                   :processing-state "Processing state"
+                   :processing-states "Processing states"
                    :remove "Remove"
                    :reports "Reports"
                    :resource "Resource"
@@ -148,17 +160,26 @@
                    ;; %1 - number
                    :review-email-n "Review email %1"
                    :review-emails "Review emails"
+                   :reviewers-vote "Reviewers vote"
                    :save "Save"
                    :short-name "Short name"
                    :start "Start"
+                   :technical-value "Technical value"
                    :title "Title"
                    :type "Type"
                    :unarchive "Unarchive"
+                   :update-catalogue-item "Update catalogue item"
                    :user "User"
                    :userid "User id"
+                   :user-role "User role"
                    :view "View"
+                   :voting "Voting"
                    :workflow "Workflow"
-                   :workflows "Workflows"}
+                   :workflows "Workflows"
+                   :workflow-anonymize-handling-explanation "This workflow hides handling users personally identifiable information (e.g. name and email) from applying users."
+                   :workflow-disabled-commands-explanation "This workflow disables actions for users when conditions apply."
+                   :workflow-processing-states-explanation "This workflow allows handler to set and update application processing state."
+                   :workflow-type "Workflow type"}
   :applicant-info {:applicant "Applicant"
                    :applicants "Applicants"
                    :email "Email"
@@ -174,57 +195,88 @@
                  :applicant "Applicant"
                  :application "Application"
                  :applications "Applications"
+                 :attachment-filename-redacted "Attachment redacted"
+                 :continue-existing-application "Continue application"
                  :copied-from "copied from"
                  :copied-to "copied to"
                  :created "Created"
                  ;; TODO: Once the terms have stabilized, convert db and the
                  ;;   code to match the term in UI.
                  :description "Title"
+                 :details "Details"
                  :duos {:validation {:missing-duo-codes "Data Use Ontology codes are specified in resources but missing from application:"}}
                  :empty "No applications."
                  ;; %1 - date
                  :entitlement-end "Access rights end %1."
+
                  ;; Format parameters for all events:
-                 ;; %1 - name of event actor
-                 :events {:applicant-changed "%1 changed the applicant to %2."
-                          :approved "%1 approved the application."
-                          :closed "%1 closed the application."
+                 ;; %1 - %:event-actor% - name of event actor
+                 ;;
+                 ;; Vector parameters (%1, %2, ...) in extra translations are supported for backwards compatibility.
+                 ;; They cannot be mixed with named format parameters, and have fixed positions.
+                 :events {;; Extra parameters for applicant-changed:
+                          ;; %2 - %:new-applicant% - Name of the new applicant
+                          :applicant-changed "%:event-actor% changed the applicant to %:new-applicant%."
+                          :approved "%:event-actor% approved the application."
+                          :attachments-redacted "%:event-actor% redacted attachments."
+                          :closed "%:event-actor% closed the application."
                           :copied-from "This application is a copy of an old application."
-                          :copied-to "%1 copied the application to a new application."
-                          :created "%1 created application %2."
-                          :decided "%1 filed a decision for the application."
-                          ;; %2 - name & email of decider
-                          :decider-invited "%1 invited %2 to decide."
-                          :decider-joined "%1 accepted the invitation to decide."
-                          ;; %2 - name of decider
-                          :decision-requested "%1 requested a decision from %2."
-                          :deleted "%1 deleted the draft."
-                          :draft-saved "%1 saved a draft."
-                          ;; %2 - external id
-                          :external-id-assigned "%1 assigned an external id %2."
-                          :expiration-notifications-sent "%1 sent expiration notification email."
-                          :licenses-accepted "%1 accepted the terms of use."
-                          :licenses-added "%1 added terms of use."
-                          ;; %2 - member name
-                          :member-added "%1 added %2 to the application."
-                          :member-invited "%1 invited %2 to the application."
-                          :member-joined "%1 joined to the application."
-                          :member-removed "%1 removed %2 from the application."
-                          :member-uninvited "%1 removed %2 from the application."
-                          :rejected "%1 rejected the application."
-                          :remarked "%1 added a remark."
-                          ;; %2 - comma-separated list of catalogue item anems
-                          :resources-changed "%1 changed the resources. New resources: %2."
-                          :returned "%1 requested changes to the application."
-                          ;; %2 - name of reviewer
-                          :review-requested "%1 requested a review from %2."
-                          :reviewed "%1 reviewed the application."
-                          ;; %2 - name & email of reviewer
-                          :reviewer-invited "%1 invited %2 to review the application."
-                          :reviewer-joined "%1 accepted the invitation to review."
-                          :revoked "%1 revoked the entitlement."
-                          :submitted "%1 submitted the application for review."
-                          :unknown "Unknown"}
+                          :copied-to "%:event-actor% copied the application to a new application."
+                          ;; Extra parameters for created:
+                          ;; %2 - %:application-external-id% - External id of the new application
+                          :created "%:event-actor% created application %:application-external-id%."
+                          :decided "%:event-actor% filed a decision for the application."
+                          ;; Extra parameters for decider-invited:
+                          ;; %2 - %:invited-user% - Name & email of decider
+                          :decider-invited "%:event-actor% invited %:invited-user% to decide."
+                          :decider-joined "%:event-actor% accepted the invitation to decide."
+                          ;; Extra parameters for decision-requested:
+                          ;; %2 - %:requested-users% - Comma-separated list of requested deciders names
+                          :decision-requested "%:event-actor% requested a decision from %:requested-users%."
+                          :deleted "%:event-actor% deleted the draft."
+                          :draft-saved "%:event-actor% updated the application."
+                          ;; Extra parameters for external-id-assigned:
+                          ;; %2 - %:application-external-id% - External id of the application
+                          :external-id-assigned "%:event-actor% assigned an external id %:application-external-id%."
+                          :expiration-notifications-sent "%:event-actor% sent expiration notification email."
+                          :licenses-accepted "%:event-actor% accepted the terms of use."
+                          :licenses-added "%:event-actor% added terms of use."
+                          ;; Extra parameters for member-added:
+                          ;; %2 - %:added-user% - Name of the added member
+                          :member-added "%:event-actor% added %:added-user% to the application."
+                          ;; Extra parameters for member-invited:
+                          ;; %2 - %:invited-user% - Name of the invited member
+                          :member-invited "%:event-actor% invited %:invited-user% to the application."
+                          :member-joined "%:event-actor% joined to the application."
+                          ;; Extra parameters for member-removed:
+                          ;; %2 - %:removed-user% - Name of the removed member
+                          :member-removed "%:event-actor% removed %:removed-user% from the application."
+                          ;; Extra parameters for member-uninvited:
+                          ;; %2 - %:uninvited-user% - Name of the uninvited member
+                          :member-uninvited "%:event-actor% removed %:uninvited-user% from the application."
+                          ;; Extra parameters for processing-state-changed:
+                          ;; %2 - %:state% - Localized name of the new state
+                          :processing-state-changed "%:event-actor% changed application's processing state to \"%:state%\"."
+                          :rejected "%:event-actor% rejected the application."
+                          :remarked "%:event-actor% added a remark."
+                          ;; Extra parameters for resources-changed:
+                          ;; %2 - %:catalogue-items% - Comma-separated list of catalogue item anems
+                          :resources-changed "%:event-actor% changed the resources. New resources: %:catalogue-items%."
+                          :returned "%:event-actor% requested changes to the application."
+                          ;; Extra parameters for review-requested:
+                          ;; %2 - %:requested-users% - Comma-separated list of requested reviewers names
+                          :review-requested "%:event-actor% requested a review from %:requested-users%."
+                          :reviewed "%:event-actor% reviewed the application."
+                          ;; Extra parameters for reviewer-invited:
+                          ;; %2 - %:invited-user% - Name & email of the invited reviewer
+                          :reviewer-invited "%:event-actor% invited %:invited-user% to review the application."
+                          :reviewer-joined "%:event-actor% accepted the invitation to review."
+                          :revoked "%:event-actor% revoked the entitlement."
+                          :submitted "%:event-actor% submitted the application for review."
+                          :unknown "Unknown"
+                          ;; Extra parameters for voted:
+                          ;; %2 - %:vote% - Localized value of the vote
+                          :voted "%:event-actor% voted %:vote%."}
                  :export {:applicant "Applicant"
                           :external-id "External id"
                           :first-submitted "Submitted"
@@ -232,13 +284,17 @@
                           :resources "Resources"
                           :state "State"}
                  :handlers "Handlers"
-                 :highlight-related-events "Show related events."
                  :id "Id"
                  :intro [:div.intro [:p "Fill out and submit the application. Several applicants can be invited as members of the application, and each applicant has to accept the terms of use to gain access."]]
                  :last-activity "Last activity"
                  :latest-activity "Latest activity"
                  :my-applications "My Applications"
+                 :not-shown-to-applying-users "Not shown to applicants"
+                 :redacted-attachments "Redacted attachments"
+                 :redacted-attachments-replaced "New attachments replace the redacted attachments."
+                 :replacing-attachments "New attachments"
                  :resource "Resource"
+                 :shown-to-applying-users "Shown to applicants"
                  :state "State"
                  :states {:approved "Approved"
                           :closed "Closed"
@@ -264,7 +320,13 @@
                  :view-application-with-description "View application %1: %2"
                  ;; %1 - application id
                  ;; %2 - comma-separated list of catalogue item names
-                 :view-application-without-description "View application %1 for resources: %2"}
+                 :view-application-without-description "View application %1 for resources: %2"
+                 :voting {:previously-voted [:p "Previously you voted %1. You can change your vote here."]
+                          :votes {:accept "Accept"
+                                  :empty "Empty"
+                                  :not-voted "Has not voted"
+                                  :reject "Reject"}
+                          :voting "Voting"}}
   :cart {:add "Add to cart"
          :apply "Apply"
          ;; %1 - number of resources
@@ -274,17 +336,49 @@
          :remove "Remove from cart"}
   :catalogue {:catalogue "Catalogue"
               :header "Resource"
-              :intro [:p "Access to the following resources can be applied for."]
+              :intro ""
               :more-info "More info"
               :continue-existing-application "Continue application"
-              :continue-existing-application-intro [:div.intro [:p "Unfinished applications:"]]
+              :continue-existing-application-intro ""
               :apply-resources "Apply for access"}
   :collapse {:hide "Hide"
              :show "Show"
              :show-less "Show less"
              :show-more "Show more"}
-  :change-form {:change-form-intro "You are about to change the form of the following catalogue items. The changes will be made one at a time, so that each old item is terminated and a new copy will use the chosen form."
-                :form-selection "Form"}
+  :update-catalogue-item {:update-catalogue-item-intro "You are about to update the following catalogue items. The changes will be made one at a time, so that each old item is terminated and a new copy will use the chosen form and workflow."
+                          :form-selection "Form"
+                          :workflow-selection "Workflow"}
+  :commands {:accept-invitation "Accept invitation"
+             :accept-licenses "Accept the terms of use"
+             :add-licenses "Add terms of use"
+             :add-member "Add member"
+             :approve "Approve"
+             :assign-external-id "Assign external id"
+             :change-applicant "Make applicant"
+             :change-resources "Change resources"
+             :change-processing-state "Change state"
+             :close "Close application"
+             :copy-as-new "Copy as a new application"
+             ;; :create
+             :decide "Decide"
+             :delete "Delete draft"
+             :invite-decider "Invite decider"
+             :invite-member "Invite member"
+             :invite-reviewer "Invite reviewer"
+             :redact-attachments "Redact attachments"
+             :reject "Reject"
+             :remark "Remark"
+             :remove-member "Remove member"
+             :request-decision "Request decision"
+             :request-review "Request review"
+             :return "Return to applicant"
+             :review "Review"
+             :revoke "Revoke entitlement"
+             :save-draft "Save as draft"
+             ;; :send-expiration-notifications
+             :submit "Send application"
+             :uninvite-member "Uninvite member"
+             :vote "Vote"}
   :create-form {:add-column "Add column"
                 :add-form-field "Add field"
                 :add-option "Add option"
@@ -342,17 +436,26 @@
   :create-resource {:licenses-selection "Licenses"
                     :resid "Resource identifier"
                     :resid-placeholder "urn:test:fi:some-uuid"}
-  :create-workflow {:decider-workflow "Decider workflow"
+  :create-workflow {:anonymize-handling-explanation "You can hide handling users personally identifiable information (e.g. name and email) from applying users."
+                    :create-new-processing-state "New processing state"
+                    :create-new-rule "New rule"
+                    :decider-workflow "Decider workflow"
                     :decider-workflow-description "The handler does not have the authority to approve or reject, but only a separate decider has."
                     :default-workflow "Default workflow"
                     :default-workflow-description "The handler is in full control of the application process. The handler may request reviews and decisions from others as needed."
+                    :disable-commands "Disable actions"
+                    :disable-commands-explanation [:<> "You can disable actions for users when conditions apply. Actions, application states and user roles can be found on " [:a {:href "https://github.com/CSCfi/rems/blob/master/docs/application-permissions.md" :target :_blank} "REMS Github page."]]
                     :handlers "Handlers"
                     :master-workflow "Master workflow"
                     :master-workflow-description "ONLY FOR TESTING. Union of all possible workflows."
-                    :title "Title"}
+                    :processing-states-explanation "Handlers can set and update application processing state using \"%:command%\" action. Changes to processing state can be used e.g. to send automatic notifications to other systems."
+                    :rule "Rule"
+                    :title "Title"
+                    :voting-explanation "You can require a vote to decide on the application."}
   :dropdown {:no-results "No results"
              :placeholder "Select..."
-             :loading "Loading..."}
+             :loading "Loading..."
+             :placeholder-any-selection "Any"}
   :duo {:fields {:more-info "Additional info for applicant (optional)"}
         :no-duo-codes "No Data Use Ontology codes"
         :restriction {:collaboration "Primary study investigator(s)"
@@ -367,92 +470,128 @@
         :title "Data Use Ontology"
         :validation {:mondo-not-valid "Provided Mondo codes are not compatible:"
                      :needs-validation "Data Use Ontology restriction needs to be reviewed manually:"}}
+
   ;; Format parameters for all emails (unless otherwise noted):
-  ;; %1 - name of recipient
-  ;; %2 - name of event actor
-  ;; %3 - id of application (+ description of application if available)
-  ;; %4 - name of applicant
-  ;; %5 - catalogue items of application, comma separated list
-  ;; %6 - link to application
-  :email {:applicant-changed {:subject-to-member "Applicant for application %3 changed"
-                              :message-to-member "Dear %1,\n\nThe applicant for application %3 has been changed to %4 by %2.\n\nYou can view the application at %6."
-                              :subject-to-handler "(%3) Applicant changed"
-                              :message-to-handler "Dear %1,\n\nThe applicant for application %3 has been changed to %4 by %2.\n\nYou can view the application at %6."}
-          :application-approved {:subject-to-applicant "Your application %3 has been approved"
-                                 :message-to-applicant "Dear %1,\n\nYour application %3 has been approved.\n\nYou can view the application and the decision at %6"
-                                 :subject-to-handler "(%3) Application has been approved"
-                                 :message-to-handler "Dear %1,\n\n%2 has approved the application %3 from %4.\n\nYou can view the application and the decision at %6"}
-          :application-rejected {:subject-to-applicant "Your application %3 has been rejected"
-                                 :message-to-applicant "Dear %1,\n\nYour application %3 has been rejected.\n\nYou can view the application and the decision at %6"
-                                 :subject-to-handler "(%3) Application has been rejected"
-                                 :message-to-handler "Dear %1,\n\n%2 has rejected the application %3 from %4.\n\nYou can view the application and the decision at %6"}
-          :application-closed {:subject-to-applicant "Your application %3 has been closed"
-                               :message-to-applicant "Dear %1,\n\nYour application %3 has been closed.\n\nYou can still view the application at %6"
-                               :subject-to-handler "(%3) Application has been closed"
-                               :message-to-handler "Dear %1,\n\n%2 has closed the application %3 from %4.\n\nYou can view the application at %6"}
-          :application-expiration-notification {:subject-to-member "Your unsubmitted application %2 will be deleted soon"
-                                                :message-to-member "Dear %1,\n\nYour unsubmitted application has been inactive since %3 and it will be deleted after %4, if it is not edited.\n\nYou can view and edit the application at %5"}
-          :application-returned {:subject-to-applicant "Your application %3 needs to be amended"
-                                 :message-to-applicant "Dear %1,\n\nYour application %3 has been returned for your consideration. Please, amend according to requests and resubmit.\n\nYou can view and edit the application at %6"
-                                 :subject-to-handler "(%3) Application has been returned to applicant"
-                                 :message-to-handler "Dear %1,\n\n%2 has returned the application %3 to the applicant %4 for modifications.\n\nYou can view the application at %6"}
-          :application-revoked {:subject-to-applicant "Entitlements related to your application %3 have been revoked"
-                                :message-to-applicant "Dear %1,\n\nEntitlements related to your application %3 have been revoked.\n\nYou can view the application at %6"
-                                :subject-to-handler "(%3) Entitlements have been revoked"
-                                :message-to-handler "Dear %1,\n\n%2 has revoked the entitlements related to application %3 from %4.\n\nYou can view the application at %6"}
-          :application-licenses-added {:subject "Your application's %3 terms of use have changed"
-                                       :message "Dear %1,\n\n%2 has requested your approval for changed terms of use to application %3.\n\nYou can view the application and approve the changed terms of use at %6"}
-          :application-resubmitted {:subject-to-handler "(%3) Application has been resubmitted"
-                                    :message-to-handler "Dear %1,\n\nApplication %3 has been resubmitted by %4.\n\nYou can review the application at %6"}
-          :application-submitted {:subject-to-applicant "Your application %3 has been submitted"
-                                  :message-to-applicant "Dear %1,\n\nYour application %3 has been submitted. You will be notified by email when the application has been handled.\n\nYou can view the application at %6"
-                                  :subject-to-handler "(%3) A new application has been submitted"
-                                  :message-to-handler "Dear %1,\n\n%4 has submitted a new application %3 to access resource(s) %5.\n\nYou can review the application at %6"}
-          :decided {:subject "(%3) Application decision notification"
-                    :message "Dear %1,\n\n%2 has filed a decision on application %3, submitted by %4.\n\nYou can review the application at %6"}
-          ;; generic text shared by decider-invited and reviewer-invited at the moment
-          ;; %1 - name of invited person, as entered in application
-          ;; %2 - applicant name
-          ;; %3 - application id (+ description if available)
-          ;; %4 - invitation link
-          :decider-invited {:subject "Invitation to participate in handling application %3"
-                            :message "Dear %1,\n\nYou have been invited to participate in handling application %3, by %2.\n\nYou can view the application at %4"}
-          :decision-requested {:subject "(%3) Decision request"
-                               :message "Dear %1,\n\n%2 has requested your decision on application %3, submitted by %4.\n\nYou can review application at %6"}
+  ;; %1 - %:recipient% - name of recipient
+  ;; %2 - %:event-actor% - name of event actor
+  ;; %3 - %:application-id% - id of application (+ description of application if available)
+  ;; %4 - %:applicant% - name of applicant
+  ;; %5 - %:catalogue-items% - catalogue items of application, comma separated list
+  ;; %6 - %:application-url% - link to application
+  ;;
+  ;; Vector parameters (%1, %2, ...) in extra translations are supported for backwards compatibility.
+  ;; They cannot be mixed with named format parameters, and have fixed positions.
+  :email {:applicant-changed {:subject-to-member "Applicant for application %:application-id% changed"
+                              :message-to-member "Dear %:recipient%,\n\nThe applicant for application %:application-id% has been changed to %:applicant% by %:event-actor%.\n\nYou can view the application at %:application-url%."
+                              :subject-to-handler "(%:application-id%) Applicant changed"
+                              :message-to-handler "Dear %:recipient%,\n\nThe applicant for application %:application-id% has been changed to %:applicant% by %:event-actor%.\n\nYou can view the application at %:application-url%."}
+          :application-approved {:subject-to-applicant "Your application %:application-id% has been approved"
+                                 :message-to-applicant "Dear %:recipient%,\n\nYour application %:application-id% has been approved.\n\nYou can view the application and the decision at %:application-url%"
+                                 :subject-to-handler "(%:application-id%) Application has been approved"
+                                 :message-to-handler "Dear %:recipient%,\n\n%:event-actor% has approved the application %:application-id% from %:applicant%.\n\nYou can view the application and the decision at %:application-url%"}
+          :application-rejected {:subject-to-applicant "Your application %:application-id% has been rejected"
+                                 :message-to-applicant "Dear %:recipient%,\n\nYour application %:application-id% has been rejected.\n\nYou can view the application and the decision at %:application-url%"
+                                 :subject-to-handler "(%:application-id%) Application has been rejected"
+                                 :message-to-handler "Dear %:recipient%,\n\n%:event-actor% has rejected the application %:application-id% from %:applicant%.\n\nYou can view the application and the decision at %:application-url%"}
+          :application-closed {:subject-to-applicant "Your application %:application-id% has been closed"
+                               :message-to-applicant "Dear %:recipient%,\n\nYour application %:application-id% has been closed.\n\nYou can still view the application at %:application-url%"
+                               :subject-to-handler "(%:application-id%) Application has been closed"
+                               :message-to-handler "Dear %:recipient%,\n\n%:event-actor% has closed the application %:application-id% from %:applicant%.\n\nYou can view the application at %:application-url%"}
+          ;; Format parameters for application-expiration-notification:
+          ;; %1 - %:recipient% - name of recipient
+          ;; %2 - %:application-id% - id of application (+ description of application if available)
+          ;; %3 - %:last-activity% - date of last activity in application
+          ;; %4 - %:expires-on% - date of application expiration (after which draft application will be removed)
+          ;; %5 - %:application-url% - link to application
+          :application-expiration-notification {:subject-to-member "Your unsubmitted application %:application-id% will be deleted soon"
+                                                :message-to-member "Dear %:recipient%,\n\nYour unsubmitted application has been inactive since %:last-activity% and it will be deleted after %:expires-on%, if it is not edited.\n\nYou can view and edit the application at %:application-url%"}
+          :application-returned {:subject-to-applicant "Your application %:application-id% needs to be amended"
+                                 :message-to-applicant "Dear %:recipient%,\n\nYour application %:application-id% has been returned for your consideration. Please, amend according to requests and resubmit.\n\nYou can view and edit the application at %:application-url%"
+                                 :subject-to-handler "(%:application-id%) Application has been returned to applicant"
+                                 :message-to-handler "Dear %:recipient%,\n\n%:event-actor% has returned the application %:application-id% to the applicant %:applicant% for modifications.\n\nYou can view the application at %:application-url%"}
+          :application-revoked {:subject-to-applicant "Entitlements related to your application %:application-id% have been revoked"
+                                :message-to-applicant "Dear %:recipient%,\n\nEntitlements related to your application %:application-id% have been revoked.\n\nYou can view the application at %:application-url%"
+                                :subject-to-handler "(%:application-id%) Entitlements have been revoked"
+                                :message-to-handler "Dear %:recipient%,\n\n%:event-actor% has revoked the entitlements related to application %:application-id% from %:applicant%.\n\nYou can view the application at %:application-url%"}
+          :application-licenses-added {:subject "Your application's %:application-id% terms of use have changed"
+                                       :message "Dear %:recipient%,\n\n%:event-actor% has requested your approval for changed terms of use to application %:application-id%.\n\nYou can view the application and approve the changed terms of use at %:application-url%"}
+          :application-resubmitted {:subject-to-handler "(%:application-id%) Application has been resubmitted"
+                                    :message-to-handler "Dear %:recipient%,\n\nApplication %:application-id% has been resubmitted by %:applicant%.\n\nYou can review the application at %:application-url%"}
+          :application-submitted {:subject-to-applicant "Your application %:application-id% has been submitted"
+                                  :message-to-applicant "Dear %:recipient%,\n\nYour application %:application-id% has been submitted. You will be notified by email when the application has been handled.\n\nYou can view the application at %:application-url%"
+                                  :subject-to-handler "(%:application-id%) A new application has been submitted"
+                                  :message-to-handler "Dear %:recipient%,\n\n%:applicant% has submitted a new application %:application-id% to access resource(s) %:catalogue-items%.\n\nYou can review the application at %:application-url%"}
+          :decided {:subject "(%:application-id%) Application decision notification"
+                    :message "Dear %:recipient%,\n\n%:event-actor% has filed a decision on application %:application-id%, submitted by %:applicant%.\n\nYou can review the application at %:application-url%"}
+          ;; Format parameters for decider-invited:
+          ;; %1 - %:recipient% - name of recipient
+          ;; %2 - %:applicant% - name of applicant
+          ;; %3 - %:application-id% - id of application (+ description of application if available)
+          ;; %4 - %:invitation-url% - invitation link
+          :decider-invited {:subject "Invitation to participate in handling application %:application-id%"
+                            :message "Dear %:recipient%,\n\nYou have been invited to participate in handling application %:application-id%, by %:applicant%.\n\nYou can view the application at %:invitation-url%"}
+          :decision-requested {:subject "(%:application-id%) Decision request"
+                               :message "Dear %:recipient%,\n\n%:event-actor% has requested your decision on application %:application-id%, submitted by %:applicant%.\n\nYou can review application at %:application-url%"}
           :footer "\n\nPlease do not reply to this automatically generated message."
-          :handler-reminder {:application "%1, submitted by %2"
-                             :message "Dear %1,\n\nThe following applications are in progress and may require your actions:\n\n%2\n\nYou can view the applications at %3"
+          :handler-reminder {;; Format parameters for handler-reminder/application:
+                             ;; %1 - %:applicant% - name of applicant
+                             ;; %2 - %:application-id% - id of application (+ description of application if available)
+                             :application "%:application-id%, submitted by %:applicant%"
+                             ;; Format parameters for handler-reminder/message:
+                             ;; %1 - %:recipient% - name of handler user
+                             ;; %2 - %:applications% - list of applications which require action
+                             ;; %3 - %:actions-url% - link to actions page
+                             :message "Dear %:recipient%,\n\nThe following applications are in progress and may require your actions:\n\n%:applications%\n\nYou can view the applications at %:actions-url%"
                              :subject "Applications in progress"}
-          :member-added {:subject "Added as a member of an application %3"
-                         :message "Dear %1,\n\nYou've been added as a member of application %3, submitted by %4.\n\nYou can view application and accept the terms of use at %6"}
-          ;; %1 - name of member, as entered in application
-          ;; %2 - applicant name
-          ;; %3 - application id (+ description if available)
-          ;; %4 - invitation link
-          :member-invited {:subject "Invitation to participate in application %3"
-                           :message "Dear %1,\n\nYou have been invited to participate in application %3, by %2.\n\nYou can view the application and accept the terms of use at %4"}
+          :member-added {:subject "Added as a member of an application %:application-id%"
+                         :message "Dear %:recipient%,\n\nYou've been added as a member of application %:application-id%, submitted by %:applicant%.\n\nYou can view application and accept the terms of use at %:application-url%"}
+          ;; Format parameters for member-invited:
+          ;; %1 - %:recipient% - name of recipient
+          ;; %2 - %:applicant% - name of applicant
+          ;; %3 - %:application-id% - id of application (+ description of application if available)
+          ;; %4 - %:invitation-url% - invitation link
+          :member-invited {:subject "Invitation to participate in application %:application-id%"
+                           :message "Dear %:recipient%,\n\nYou have been invited to participate in application %:application-id%, by %:applicant%.\n\nYou can view the application and accept the terms of use at %:invitation-url%"}
           :regards "\n\nKind regards,\n\nREMS\n"
-          :remarked {:subject "(%3) Application has been commented"
-                     :message "Dear %1,\n\n%2 has commented your application %3, submitted by %4.\n\nYou can view the application and the comment at %6"}
-          :review-requested {:subject "(%3) Review request"
-                             :message "Dear %1,\n\n%2 has requested your review on application %3, submitted by %4.\n\nYou can review the application at %6"}
-          :reviewed {:subject "(%3) Application has been reviewed"
-                     :message "Dear %1,\n\n%2 has reviewed the application %3, submitted by %4.\n\nYou can review the application at %6"}
-          :reviewer-invited {:subject "Invitation to participate in handling application %3"
-                             :message "Dear %1,\n\nYou have been invited to participate in handling application %3, by %2.\n\nYou can view the application at %4"}
-          :reviewer-reminder {:application "%1, submitted by %2"
-                              :message "Dear %1,\n\nThe following applications are waiting for a review from you:\n\n%2\n\nYou can view the applications at %3"
+          :remarked {:subject "(%:application-id%) Application has been commented"
+                     :message "Dear %:recipient%,\n\n%:event-actor% has commented your application %:application-id%, submitted by %:applicant%.\n\nYou can view the application and the comment at %:application-url%"}
+          :review-requested {:subject "(%:application-id%) Review request"
+                             :message "Dear %:recipient%,\n\n%:event-actor% has requested your review on application %:application-id%, submitted by %:applicant%.\n\nYou can review the application at %:application-url%"}
+          :reviewed {:subject "(%:application-id%) Application has been reviewed"
+                     :message "Dear %:recipient%,\n\n%:event-actor% has reviewed the application %:application-id%, submitted by %:applicant%.\n\nYou can review the application at %:application-url%"}
+          ;; Format parameters for reviewer-invited:
+          ;; %1 - %:recipient% - name of recipient
+          ;; %2 - %:applicant% - name of applicant
+          ;; %3 - %:application-id% - id of application (+ description of application if available)
+          ;; %4 - %:invitation-url% - invitation link
+          :reviewer-invited {:subject "Invitation to participate in handling application %:application-id%"
+                             :message "Dear %:recipient%,\n\nYou have been invited to participate in handling application %:application-id%, by %:applicant%.\n\nYou can view the application at %:invitation-url%"}
+          :reviewer-reminder {;; Format parameters for reviewer-reminder/application:
+                              ;; %1 - %:applicant% - name of applicant
+                              ;; %2 - %:application-id% - id of application (+ description of application if available)
+                              :application "%:application-id%, submitted by %:applicant%"
+                              ;; Format parameters for reviewer-reminder/message:
+                              ;; %1 - %:recipient% - name of handler user
+                              ;; %2 - %:applications% - list of applications which require action
+                              ;; %3 - %:actions-url% - link to actions page
+                              :message "Dear %:recipient%,\n\nThe following applications are waiting for a review from you:\n\n%:applications%\n\nYou can view the applications at %:actions-url%"
                               :subject "Applications pending review"}
-          :workflow-handler-invitation {:message "Dear %1,\n\n%2 has invited you to be a handler of applications of workflow %3.\n\nYou can view the workflow at %4"
+          ;; Format parameters for workflow-handler-invitation:
+          ;; %1 - %:recipient% - name of invited person, as entered in application
+          ;; %2 - %:invited-by% - name of person who sent the invitation
+          ;; %3 - %:workflow% - workflow title
+          ;; %4 - %:invitation-url% - invitation link
+          :workflow-handler-invitation {:message "Dear %:recipient%,\n\n%:invited-by% has invited you to be a handler of applications of workflow %:workflow%.\n\nYou can view the workflow at %:invitation-url%"
                                         :subject "Invitation to handle applications"}}
-  :footer "LDaCA Program"
+  :footer "CSC – IT Center for Science"
   :form {:accepted-licenses "Accepted terms of use"
          :actions "Actions"
+         :add-comment "Add comment"
          :add-comments-not-shown-to-applicant "Add comment (not shown to applicant)"
          :add-comments-shown-to-applicant "Add comment (shown to applicant)"
-         :add-remark "Add remark (shown or hidden to applicant)"
+         :add-remark "Add remark"
          :add-row "Add row"
-         :alert-blacklisted-users "These members of the application have revoked access for some of the applied resources:"
+         :alert-blacklisted-users "These members of the application are blacklisted for some of the applied resources:"
          :alert-disabled-resources "Application contains disabled catalogue items:"
          :application "Application"
          :attachment-remove "Remove"
@@ -474,6 +613,7 @@
          :invalid-attachment "Attachment file type not allowed."
          :too-large-attachment "The attachment is too large."
          :attachment-max-size "Allowed maximum size of an attachment: %1."
+         :last-save "Last save %1."
          :licenses "Terms of use"
          ;; %1 - number
          :maxlength "(max %1 characters)"
@@ -490,6 +630,7 @@
          :success "Success"
          :upload "Upload an attachment"
          :upload-extensions "Allowed file types: %1."
+         :upload-replacement-attachment "Upload replacement attachment"
          ;; %1 - field name
          :validation {:column-values-missing "All columns must have values for table \"%1\"."
                       :columns-required "At least one column is required."
@@ -507,9 +648,11 @@
   :item-lists {:move-down "Move down"
                :move-up "Move up"
                :remove "Remove"}
-  :label {:default "%1: %2"
-          :dash "%1 – %2"
-          :long "%1: %2 – %3"}
+  :label {:dash "%1 – %2"
+          :default "%1: %2"
+          :long "%1: %2 – %3"
+          :optional "%1 (optional)"
+          :parens "%1 (%2)"}
   :link {:download-file "Download file"
          :opens-in-new-window "Opens in a new window"}
   :login {:alternative "Other login options"
@@ -520,7 +663,7 @@
                    :unknown "There was a problem logging you in. Please check your identity provider."}
           :fake-text ""
           :fake-title ""
-          :intro [:div [:h1 "Welcome to LDaCA REMS"] [:p "This is a UAT environment for LDaCA Program. More information is available on " [:a {:href "/extra-pages/about"} "About"] " page."]]
+          :intro [:div [:h1 "Welcome to LDaCA REMS"] [:p "This is a test environment for LDaCA Program. More information is available on " [:a {:href "/extra-pages/about"} "About"] " page."]]
           :intro2 ""
           :login "Login"
           :oidc-text ""
@@ -554,34 +697,37 @@
            :phase-revoked "Phase revoked:"
            :rejected "Rejected"
            :revoked "Revoked"}
-  :profile {:delete-api-key "Delete API-key"
-            :ega-api-key-expiration-date "Expiration date"
-            :ega-api-key-expired [:p "You have an expired EGA API-key. Please generate a new one."]
-            :ega-api-key-none [:p "Looks like you don't have a valid EGA API-key yet."]
-            :ega-api-key-valid [:p "You have a valid EGA API-key."]
-            :ega-full "The European Genome-phenome Archive"
-            :ega-intro [:p "Applications that you approve may have their entitlements pushed to EGA servers. This requires you to have a valid API-Key. To generate one, make sure you first link your ELIXIR user account to the EGA account."]
-            :generate-api-key "Generate API-key"
-            :idp-email "Email address from identity provider"
+  :profile {:idp-email "Email address from identity provider"
             :no-email "(no email address)"
             :notification-email "Use another email address for notifications"
             :save "Save"
             :settings "Settings"
             :warning-about-missing-email [:<> "You will need to " [:a {:href "/profile"} "add an email address to your settings"] ", so that you can receive notifications about your applications."]
             :your-details "Your user details"}
+  :roles {:anonymous-handler :en.t.roles/handler ; use handler as default translation for workflow anonymized handlers
+          :applicant "Applicant"
+          :decider "Decider"
+          :handler "Handler"
+          :member "Member"
+          :past-decider "Past decider"
+          :past-reviewer "Past reviewer"
+          :reviewer "Reviewer"
+          :technical-role "Technical role"}
   :search {:clear-search "Clear search"
            :example-searches "Example searches"
            :learn-more "Learn more"
            :search "Search"}
   :table {:ascending-order "Ascending order"
           :descending-order "Descending order"
+          :first-rows-only "Showing the first %1 rows only."
           :all-rows-selected "All rows selected"
           :no-rows-selected "No rows selected"
+          :show-all-rows "Show all rows"
           :some-rows-selected "Some rows selected"
-          ;; %1 - number
-          :show-all-n-rows "Show all %1 rows"}
+          :paging {:page "Page"}}
   :unauthorized-page {:unauthorized "Unauthorized"
                       :you-are-unauthorized "You're unauthorized to access this page."}
+  :unknown "Unknown"
   :forbidden-page {:forbidden "Forbidden"
                    :you-are-forbidden "Access to the page is forbidden."}
   :error-page {:title "Problem"}

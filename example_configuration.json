@@ -5,7 +5,7 @@
   "userEmail": "m.sacalbonequi@qut.edu.au",
   "userName": "Moises Sacal Bonequi",
   "organizationId": "ldaca",
-  "categoryId": 1,
+  "categoryId": null,
   "apis": {
     "create_organization": "/api/organizations/create",
     "get_organization": "/api/organizations",
@@ -17,7 +17,7 @@
     "get_workflow": "/api/workflows",
     "create_resource": "/api/resources/create",
     "get_resource": "/api/resources",
-    "create_category": "/api/categories",
+    "create_category": "/api/categories/create",
     "get_category": "/api/categories",
     "create_catalogueItem": "/api/catalogue-items/create",
     "get_catalogueItem": "/api/catalogue-items"

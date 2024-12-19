@@ -1,0 +1,30 @@
+{
+  "organization": {
+    "id": "LDACA",
+    "shortName": "LDaCA",
+    "email": "info@ldaca.edu.au",
+    "name": "LDaCA",
+    "reviewEmailName": "m.sacalbonequi@uq.edu.au"
+  },
+  "license": {
+    "title": "Alex License",
+    "content": "http://example.com"
+  },
+  "workflow": {
+    "title": "Alex Test Workflow",
+    "handlers": [
+      "http://cilogon.org/serverE/users/4497"
+    ]
+  },
+  "resource": {
+    "id": "http://example.com"
+  },
+  "category": {
+    "title": "LDaCA",
+    "description": "LDaCA Licenses"
+  },
+  "catalogue": {
+    "title": "Data License for Alex Test - Catalogue Item",
+    "url": "http://example.com"
+  }
+}
