@@ -4,14 +4,14 @@ version: '2'
 services:
 
   app:
-    image: cscfi/rems:v2.29
+    image: cscfi/rems:v2.37
     environment:
       PORT: 3000
       DATABASE_URL: postgresql://db:5432/rems?user=rems&password=remspassword
       AUTHENTICATION: :oidc
-      OIDC_METADATA_URL: https://test.cilogon.org/.well-known/openid-configuration
-      OIDC_CLIENT_ID: cilogon:/client_id/164ab138a8a4e8be028c57778653241f
-      OIDC_CLIENT_SECRET: pHr7BlNYMt2mxaeepz84cJHbf4yEK51OifGzaCfkmrK_EF7pW9oOntdvlst4oHQMx-EjN1ZUD6feoPJbYh2JVQ
+      OIDC_METADATA_URL: https://test.cilogon.aaf.edu.au/.well-known/openid-configuration
+      OIDC_CLIENT_ID: cilogon:/client_id/XXXX
+      OIDC_CLIENT_SECRET: XXXX
       PUBLIC_URL: http://localhost:3000/
     mem_reservation: 200m
     mem_limit: 2000m

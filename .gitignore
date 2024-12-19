@@ -2,5 +2,4 @@ rems/postgres-data/
 node_modules
 .idea
 rems/backups/*
-configuration.prod.json
-configuration.uat.json
+configuration.*.json
