@@ -1,5 +1,5 @@
-import {REMS} from "./index.js";
-import {v4 as uuidv4} from "uuid";
+import { REMS } from "./index.js";
+import { v4 as uuidv4 } from "uuid";
 import fs from 'fs';
 
 (async function () {
@@ -14,14 +14,14 @@ import fs from 'fs';
     access = JSON.parse(fs.readFileSync(process.argv[3], 'utf8'));
   }
   if (configuration && access) {
-    await setup({configuration, access});
+    await setup({ configuration, access });
   } else {
     throw new Error('Configuration and Access files missing');
   }
 
 })();
 
-async function setup({configuration, access}) {
+async function setup({ configuration, access }) {
   try {
     const rems = new REMS({
       host: configuration.host,
@@ -30,7 +30,7 @@ async function setup({configuration, access}) {
       apis: configuration.apis
     });
 
-    let organization = await rems.getOrganization({id: configuration.organizationId});
+    let organization = await rems.getOrganization({ id: configuration.organizationId });
     if (!organization?.id) {
       organization = await rems.organization({
         id: access.organization.id,
@@ -49,11 +49,11 @@ async function setup({configuration, access}) {
     }
     let lic;
     if (access.license.id) {
-      lic = await rems.getLicense({id: access.license.id})
+      lic = await rems.getLicense({ id: access.license.id })
     } else {
       //It may break but there doesn't seem to be pagination on licenses on REMS...
       //If there is pagination, code to search license.
-      lic = await rems.getLicense({content: access.license.content});
+      lic = await rems.getLicense({ content: access.license.content });
     }
     if (!lic?.id) {
       lic = await rems.license({
@@ -67,8 +67,13 @@ async function setup({configuration, access}) {
     if (access.form) {
       //If you know the form id do not create another one.
       if (access.form.id) {
-        form = await rems.getForm({id: access.form.id});
-      } else {
+        console.log('looking for form', access.form.id);
+        form = await rems.getForm({ id: access.form.id });
+        // console.log('form returned = ', form);
+      }
+      if (!form) {
+        console.log('no form found')
+        console.log('creating form fields')
         const fields = [];
         for (let f of access.form.fields) {
           const field = rems.formField({
@@ -83,6 +88,7 @@ async function setup({configuration, access}) {
           });
           fields.push(field);
         }
+        console.log('creating form')
         form = await rems.form({
           // formId: access.form.newId,
           organizationId: configuration.organizationId,
@@ -94,7 +100,7 @@ async function setup({configuration, access}) {
       }
     }
     let resource;
-    resource = await rems.getResource({resid: access.resource.id});
+    resource = await rems.getResource({ resid: access.resource.id });
     if (!resource?.id) {
       resource = await rems.resource({
         resId: access.resource.id, //In our case a license === resource
@@ -105,7 +111,7 @@ async function setup({configuration, access}) {
       });
     }
     let workflow;
-    workflow = await rems.getWorkflow({title: access.workflow.title});
+    workflow = await rems.getWorkflow({ title: access.workflow.title });
     if (!workflow?.id) {
       workflow = await rems.workflow({
         forms: form ? [form.id] : [],
@@ -115,27 +121,27 @@ async function setup({configuration, access}) {
         handlers: access.workflow.handlers //Add all of your handlers here.
       });
     }
-      let category;
-      let categories = [];
-      if(configuration.categoryId) {
-        try {
-            category = await rems.getCategory({id: configuration.categoryId});
-            if (!category?.id) {
-                category = await rems.category({
-                    title: access.category.title,
-                    description: access.category.description
-                });
-            } else {
-                console.log('category already created', category);
-            }
-        } catch (e) {
-            console.log('error instance for category');
-            throw new Error(e);
+    let category;
+    let categories = [];
+    if (configuration.categoryId) {
+      try {
+        category = await rems.getCategory({ id: configuration.categoryId });
+        if (!category?.id) {
+          category = await rems.category({
+            title: access.category.title,
+            description: access.category.description
+          });
+        } else {
+          console.log('category already created', category);
         }
-        categories.push(category.id);
+      } catch (e) {
+        console.log('error instance for category');
+        throw new Error(e);
+      }
+      categories.push(category.id);
     }
     let catalogueItem;
-    catalogueItem = await rems.getCatalogueItem({resource: access.resource.id});
+    catalogueItem = await rems.getCatalogueItem({ resource: access.resource.id });
     if (!catalogueItem?.id) {
       catalogueItem = await rems.catalogueItem({
         resId: resource.id, //In our case a license === catalogueItem
@@ -149,7 +155,7 @@ async function setup({configuration, access}) {
         categories: categories
       });
     }
-    const cI = await rems.getCatalogueItem({id: catalogueItem.id});
+    const cI = await rems.getCatalogueItem({ id: catalogueItem.id });
     console.log('Catalogue Item:')
     console.log(JSON.stringify(cI));
   } catch (e) {
