@@ -10,8 +10,8 @@ services:
       DATABASE_URL: postgresql://db:5432/rems?user=rems&password=remspassword
       AUTHENTICATION: :oidc
       OIDC_METADATA_URL: https://test.cilogon.aaf.edu.au/.well-known/openid-configuration
-      OIDC_CLIENT_ID: cilogon:/client_id/9196201816087da27d1d005811eba36
-      OIDC_CLIENT_SECRET: 1Q66sUAt91eK-_6iNXdUrZtB77lALtiK-O9gj6KRM5pW73rLxlC062DVc36sY0t5PtoDcAtOxZs4i0HXaA3wQw
+      OIDC_CLIENT_ID: cilogon:/client_id/XXXX
+      OIDC_CLIENT_SECRET: XXXX
       PUBLIC_URL: http://localhost:3000/
     mem_reservation: 200m
     mem_limit: 2000m
