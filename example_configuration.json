@@ -1,9 +1,9 @@
 {
-  "host": "http://127.0.0.1:3000",
+  "host": "http://localhost:3000",
   "api_key": "12345678",
-  "userId": "http://cilogon.org/serverE/users/4497",
-  "userEmail": "m.sacalbonequi@qut.edu.au",
-  "userName": "Moises Sacal Bonequi",
+  "userId": "http://cilogon.org/serverX/users/XXXX",
+  "userEmail": "user@email.com",
+  "userName": "Full Name",
   "organizationId": "ldaca",
   "categoryId": null,
   "apis": {

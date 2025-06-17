@@ -1,32 +1,42 @@
-## REMS run in docker-compose for testing
+## REMS run in docker compose for testing
 
-up
+All below commands should be run in the `rems` directory. Change directories to the `rems` folder:
 ```
-docker-compose up -d
-```
-
-migrate
-```
-docker-compose run --rm -e CMD="migrate" app
+cd rems
 ```
 
-Create an API Key
+Build docker:
+```
+docker compose up -d
+```
+Note the server and user number list in the URL http://cilogon.org/serverX/users/XXXX - these will be required for later commands.
+
+Migrate (you may need to run this and then loop back to the first command):
+```
+docker compose run --rm -e CMD="migrate" app
+```
+
+Check the URL is working at http://localhost:3000/
+
+<br>
+
+Create an API Key (update the API key if not using localhost):
 ```bash
-docker-compose run --rm -e CMD="api-key add 12345678 admin_api_key;run" app
+docker compose run --rm -e CMD="api-key add 12345678 admin_api_key;run" app
 ```
-setup api-key users
+Set up api-key users (update with your server and user number):
 ```bash
-docker-compose run --rm -e CMD="api-key set-users http://cilogon.org/serverE/users/4497;run" app
-```
-
-Setup an admin user
-```bash
-docker-compose run --rm -e CMD="grant-role owner http://cilogon.org/serverE/users/4497;run" app
+docker compose run --rm -e CMD="api-key set-users http://cilogon.org/serverE/users/4497;run" app
 ```
 
-grant user role
+Set up an admin user:
 ```bash
-docker-compose run --rm -e CMD="grant-role user-owner http://cilogon.org/serverE/users/4497;run" app
+docker compose run --rm -e CMD="grant-role owner http://cilogon.org/serverE/users/4497;run" app
+```
+
+Grant user role:
+```bash
+docker compose run --rm -e CMD="grant-role user-owner http://cilogon.org/serverE/users/4497;run" app
 ```
 
 ```bash
@@ -46,4 +56,4 @@ docker run --rm \
 
 ### Swagger
 
-http://localhost:3000/swagger-ui
+The local development instance of the REMS API is accessible at http://localhost:3000/swagger-ui. For more information, see [Using the API](https://github.com/CSCfi/rems/blob/master/docs/using-the-api.md).

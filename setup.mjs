@@ -6,11 +6,11 @@ import fs from 'fs';
   let configuration = null;
   let access = null;
   if (process.argv[2]) {
-    console.log(`Configuration file ${process.argv[2]}`);
+    console.log(`Configuration file: ${process.argv[2]}`);
     configuration = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
   }
   if (process.argv[3]) {
-    console.log(`Access file ${process.argv[3]}`);
+    console.log(`Access file: ${process.argv[3]}`);
     access = JSON.parse(fs.readFileSync(process.argv[3], 'utf8'));
   }
   if (configuration && access) {

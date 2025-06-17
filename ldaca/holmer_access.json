@@ -1,0 +1,30 @@
+{
+  "organization": {
+    "id": "ldaca",
+    "shortName": "LDaCA",
+    "email": "info@ldaca.edu.au",
+    "name": "LDaCA",
+    "reviewEmailName": "rosanna.smith@uq.edu.au"
+  },
+  "license": {
+    "title": "Holmer Fieldnotes Placeholder License",
+    "content": "https://www.ldaca.edu.au/licenses/holmer-fieldnotes/placeholder/all/v1/"
+  },
+  "workflow": {
+    "title": "Holmer Fieldnotes Placeholder Workflow",
+    "handlers": [
+      "http://cilogon.org/serverI/users/1100"
+    ]
+  },
+  "resource": {
+    "id": "https://www.ldaca.edu.au/licenses/holmer-fieldnotes/placeholder/all/v1/"
+  },
+  "category": {
+    "title": "LDaCA",
+    "description": "LDaCA Licenses"
+  },
+  "catalogue": {
+    "title": "Holmer Fieldnotes Catalogue Item",
+    "url": "https://www.ldaca.edu.au/licenses/holmer-fieldnotes/placeholder/all/v1/"
+  }
+}

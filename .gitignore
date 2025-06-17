@@ -3,3 +3,4 @@ node_modules
 .idea
 rems/backups/*
 configuration.*.json
+access-details.txt

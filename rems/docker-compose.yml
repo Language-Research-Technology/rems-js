@@ -1,6 +1,5 @@
 # File created by ansible 
 
-version: '2'
 services:
 
   app:
