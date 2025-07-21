@@ -1,5 +1,5 @@
 {
-  "host": "http://127.0.0.1:3000",
+  "host": "http://localhost:3000",
   "api_key": "12345678",
   "userId": "http://cilogon.org/serverE/users/4497",
   "apis": {
