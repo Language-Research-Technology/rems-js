@@ -13,7 +13,7 @@ Note the server and user number list in the URL http://cilogon.org/serverX/users
 
 If moving from an older version to a newer version, the migrate command updates the database (you may need to run this and then loop back to the first command):
 ```
-docker compose run --rm -e CMD="migrate" app
+docker-compose run --rm -e CMD="migrate" app
 ```
 
 Check the URL is working at http://localhost:3000/
