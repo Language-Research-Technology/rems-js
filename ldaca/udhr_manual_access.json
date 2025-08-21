@@ -1,0 +1,32 @@
+{
+  "organization": {
+    "id": "LDACA",
+    "shortName": "LDaCA",
+    "email": "info@ldaca.edu.au",
+    "name": "LDaCA",
+    "reviewEmailName": "Rosanna"
+  },
+  "license": {
+    "title": "Test Dataset: UDHR Translations without SubCollections (Manual Approval) License",
+    "content": "https://language-research-technology.github.io/qa/licenses/udhr/manual/v1/"
+  },
+  "workflow": {
+    "title": "Test Dataset: UDHR Translations without SubCollections (Manual Approval) Workflow",
+    "handlers": [
+      "http://cilogon.org/serverI/users/1100"
+    ]
+  },
+  "resource": {
+    "id": "https://language-research-technology.github.io/qa/licenses/udhr/manual/v1/"
+  },
+  "category/title": {
+    "title": "LDaCA"
+  },
+    "category/description": {
+    "description": "LDaCA Licenses"
+  },
+  "catalogue": {
+    "title": "Test Dataset: UDHR Translations without SubCollections (Manual Approval) Catalogue Item",
+    "url": "https://language-research-technology.github.io/qa/licenses/udhr/manual/v1/"
+  }
+}
